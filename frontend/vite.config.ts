@@ -6,12 +6,5 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
-    proxy: {
-      '/geoip': {
-        target: 'https://geoip.maxmind.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/geoip/, ''),
-      },
-    },
   },
 })
