@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: leadflow_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DEV_DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DEV_DB_PASSWORD:-akash7666}
+      POSTGRES_DB: ${DEV_DB_NAME:-LeadFlow_CRM}
+    ports:
+      - "${DEV_DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: leadflow_api
+    restart: always
+    ports:
+      - "${PORT:-5000}:5000"
+    environment:
+      - PORT=${PORT:-5000}
+      - NODE_ENV=development
+      - DEV_DB_USERNAME=${DEV_DB_USERNAME:-postgres}
+      - DEV_DB_PASSWORD=${DEV_DB_PASSWORD:-akash7666}
+      - DEV_DB_NAME=${DEV_DB_NAME:-LeadFlow_CRM}
+      - DEV_DB_HOST=db
+      - DEV_DB_PORT=5432
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET:-supersecretaccesskey}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-supersecretrefreshkey}
+      - CLIENT_URL=${CLIENT_URL:-http://localhost:3000}
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
