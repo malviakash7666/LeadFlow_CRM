@@ -5,7 +5,7 @@ import { Sidebar } from '../../components/layout/Sidebar';
 import { Navbar } from '../../components/layout/Navbar';
 import { 
   Inbox, 
-  AlertCircle, 
+  
   CheckCircle2, 
   TrendingUp, 
   RefreshCw, 
